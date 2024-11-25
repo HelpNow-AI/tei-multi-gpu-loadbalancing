@@ -2,9 +2,22 @@
 
 # 공통 변수 설정
 volume=$PWD/data
-# image=ghcr.io/huggingface/text-embeddings-inference:turing-1.3 # Tesla T4
-image=ghcr.io/huggingface/text-embeddings-inference:1.5 # A100
 revision=main
+
+# 실행 시 첫 번째 매개변수로 GPU 타입 입력 (기본값: T4)
+gpu_type=${1:-T4}
+
+# GPU 타입에 따른 이미지 선택
+if [[ $gpu_type == "T4" ]]; then
+  image=ghcr.io/huggingface/text-embeddings-inference:turing-1.3
+elif [[ $gpu_type == "L4" ]]; then
+  image=ghcr.io/huggingface/text-embeddings-inference:89-1.5
+elif [[ $gpu_type == "A100" ]]; then
+  image=ghcr.io/huggingface/text-embeddings-inference:1.5
+else
+  echo "Invalid GPU type. Please specify 'T4', 'L4', 'A100'."
+  exit 1
+fi
 
 # Create docker network if not exists
 docker network create tei-net || true
