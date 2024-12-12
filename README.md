@@ -4,7 +4,7 @@
 ### Diagram
 ![tei-lb](./tei-lb.png)
 
-### Download TEI Images
+### Setting TEI and HF models
 1. Download TEI Image and Save to `.tar`
 ```
 # Turing architecture
