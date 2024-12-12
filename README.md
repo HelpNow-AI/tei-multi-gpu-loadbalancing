@@ -29,5 +29,5 @@ git clone https://huggingface.co/BAAI/bge-reranker-v2-m3 # bge-reranker-v2-m3
 ```
 
 ### run server
-`sh run.sh [GPU]`
+`bash run.sh [GPU]`
 - Support GPUs: T4, L4, A100
