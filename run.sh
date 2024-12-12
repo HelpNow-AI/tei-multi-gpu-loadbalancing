@@ -33,8 +33,8 @@ run_docker() {
   for i in $(seq 0 1); do
     docker run --runtime=nvidia -d --gpus '"device='$i'"' \
       --network tei-net --name ${service_name}-$i \
-      -v $volume:/data --pull always $image \
-      --model-id $model --revision $revision --auto-truncate
+      -v $volume:$volume \
+      --pull always $image --model-id $model --revision $revision --auto-truncate
   done
 
   # Nginx 컨테이너 실행 (서비스별로 다른 config 사용)
