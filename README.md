@@ -4,6 +4,30 @@
 ### Diagram
 ![tei-lb](./tei-lb.png)
 
+### Download TEI Images
+1. Download TEI Image and Save to `.tar`
+```
+# Turing architecture
+docker pull ghcr.io/huggingface/text-embeddings-inference:turing-latest
+docker save -o ./tei-images/text-embeddings-inference-turing.tar ghcr.io/huggingface/text-embeddings-inference:turing-latest
+
+# Ampere 80 architecture
+docker pull ghcr.io/huggingface/text-embeddings-inference:89-latest
+docker save -o ./tei-images/text-embeddings-inference-ampere80.tar ghcr.io/huggingface/text-embeddings-inference:89-latest
+
+# Ada Lovelave architecture
+docker pull ghcr.io/huggingface/text-embeddings-inference:latest 
+docker save -o ./tei-images/text-embeddings-inference-adalovelace.tar ghcr.io/huggingface/text-embeddings-inference:latest
+```
+
+2. Download HF Models
+```
+cd ./models
+
+git clone https://huggingface.co/BAAI/bge-m3 # bge-m3
+git clone https://huggingface.co/BAAI/bge-reranker-v2-m3 # bge-reranker-v2-m3
+```
+
 ### run server
 `sh run.sh [GPU]`
 - Support GPUs: T4, L4, A100
