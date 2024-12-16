@@ -10,7 +10,7 @@
 git clone -b feature/closed-network https://github.com/HelpNow-AI/tei-multi-gpu-loadbalancing.git
 ```
 
-1. Download TEI Image and Save to `.tar`
+2. Download TEI Image and Save to `.tar`
 ```
 # Turing architecture
 docker pull ghcr.io/huggingface/text-embeddings-inference:turing-latest
@@ -25,7 +25,7 @@ docker pull ghcr.io/huggingface/text-embeddings-inference:latest
 docker save -o ./tei-images/text-embeddings-inference-adalovelace.tar ghcr.io/huggingface/text-embeddings-inference:latest
 ```
 
-2. Download HF Models
+3. Download HF Models
 ```
 cd ./models
 
