@@ -5,6 +5,11 @@
 ![tei-lb](./tei-lb.png)
 
 ### Setting TEI and HF models
+1. Clone Repo
+```
+git clone -b feature/closed-network https://github.com/HelpNow-AI/tei-multi-gpu-loadbalancing.git
+```
+
 1. Download TEI Image and Save to `.tar`
 ```
 # Turing architecture
