@@ -5,7 +5,13 @@
 ![tei-lb](./tei-lb.png)
 
 ### Setting TEI and HF models
-1. Download TEI Image and Save to `.tar`
+1. Downdload Nginx image and Save to. `.tar`
+```
+docker pull nginx:latest
+docker save -o ./tei-images/nginx.tar nginx:latest
+```
+
+2. Download TEI Image and Save to `.tar`
 ```
 # Turing architecture
 docker pull ghcr.io/huggingface/text-embeddings-inference:turing-latest
@@ -20,7 +26,7 @@ docker pull ghcr.io/huggingface/text-embeddings-inference:latest
 docker save -o ./tei-images/text-embeddings-inference-adalovelace.tar ghcr.io/huggingface/text-embeddings-inference:latest
 ```
 
-2. Download HF Models
+3. Download HF Models (prerequisite: Git LFS install)
 ```
 cd ./models
 
