@@ -14,17 +14,20 @@ git clone -b feature/closed-network https://github.com/HelpNow-AI/tei-multi-gpu-
 ```
 docker pull nginx:latest
 docker save -o ./tei-images/nginx.tar nginx:latest
+```
 
 3. Download TEI Image and Save to `.tar`
 ```
 # Turing architecture
 docker pull ghcr.io/huggingface/text-embeddings-inference:turing-latest
 docker save -o ./tei-images/text-embeddings-inference-turing.tar ghcr.io/huggingface/text-embeddings-inference:turing-latest
-
+```
+```
 # Ampere 80 architecture
 docker pull ghcr.io/huggingface/text-embeddings-inference:89-latest
 docker save -o ./tei-images/text-embeddings-inference-ampere80.tar ghcr.io/huggingface/text-embeddings-inference:89-latest
-
+```
+```
 # Ada Lovelave architecture
 docker pull ghcr.io/huggingface/text-embeddings-inference:latest 
 docker save -o ./tei-images/text-embeddings-inference-adalovelace.tar ghcr.io/huggingface/text-embeddings-inference:latest
