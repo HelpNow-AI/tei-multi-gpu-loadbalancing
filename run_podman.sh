@@ -22,6 +22,10 @@ else
   exit 1
 fi
 
+# Nginx
+nginx_image_path=$PWD/tei-images/nginx.tar
+nginx_image=nginx:latest
+
 # Podman 네트워크 생성 (이미 존재하면 무시)
 podman network create tei-net || true
 
@@ -34,13 +38,15 @@ run_podman() {
 
   # TEI image Load
   podman load < $image_path
+  # Nginx image load
+  podman load < $nginx_image_path
 
   # 모델 경로
   model=$PWD/models/$model
 
   # 모델 컨테이너 실행
   for i in $(seq 0 1); do
-    podman run -d --device nvidia.com/gpu=$i -e NVIDIA_VISIBLE_DEVICES=$i --security-opt=label=disable \
+    podman run -dt --device nvidia.com/gpu=$i -e NVIDIA_VISIBLE_DEVICES=$i --security-opt=label=disable \
       --network tei-net --name ${service_name}-$i \
       -v $volume:$volume \
       -v $model:$model \
@@ -48,9 +54,10 @@ run_podman() {
   done
 
   # Nginx 컨테이너 실행 (서비스별로 다른 config 사용)
-  podman run -d --network tei-net --name nginx-${service_name}-lb \
+  podman run -dt --network tei-net --name nginx-${service_name}-lb \
     -v $PWD/${config_file}:/etc/nginx/conf.d/default.conf:ro \
-    -p $port:80 nginx:latest
+    -p $port:80 \
+    $nginx_image
 }
 
 # 모델 실행
