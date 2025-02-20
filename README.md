@@ -18,23 +18,29 @@ docker save -o ./tei-images/nginx.tar nginx:latest
 
 3. Download TEI Image and Save to `.tar`
 ```
-# Turing architecture
+# Turing architecture (T4, RTX 2000 series, …)
 docker pull ghcr.io/huggingface/text-embeddings-inference:turing-latest
 docker save -o ./tei-images/text-embeddings-inference-turing.tar ghcr.io/huggingface/text-embeddings-inference:turing-latest
 ```
 ```
-# Ampere 80 architecture
+# Ampere 80 architecture (A100, A30)
 docker pull ghcr.io/huggingface/text-embeddings-inference:89-latest
 docker save -o ./tei-images/text-embeddings-inference-ampere80.tar ghcr.io/huggingface/text-embeddings-inference:89-latest
 ```
 ```
-# Ada Lovelave architecture
+# Ada Lovelave architecture (RTX 4000 series, …)
 docker pull ghcr.io/huggingface/text-embeddings-inference:latest 
 docker save -o ./tei-images/text-embeddings-inference-adalovelace.tar ghcr.io/huggingface/text-embeddings-inference:latest
+```
+```
+# Hopper architecture (H100)
+docker pull ghcr.io/huggingface/text-embeddings-inference:hopper-latest
+docker save -o ./tei-images/text-embeddings-inference-hopper.tar ghcr.io/huggingface/text-embeddings-inference:hopper-latest
 ```
 
 4. Download HF Models (prerequisite: Git LFS install)
 ```
+mkdir models
 cd ./models
 
 git clone https://huggingface.co/BAAI/bge-m3 # bge-m3
@@ -43,4 +49,4 @@ git clone https://huggingface.co/BAAI/bge-reranker-v2-m3 # bge-reranker-v2-m3
 
 ### run server
 `bash run.sh [GPU]`
-- Support GPUs: T4, L4, A100
+- Support GPUs: T4, L4, A100, H100

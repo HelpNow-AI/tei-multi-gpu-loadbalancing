@@ -18,8 +18,11 @@ elif [[ $gpu_type == "L4" ]]; then
 elif [[ $gpu_type == "A100" ]]; then
   image_path=$PWD/tei-images/text-embeddings-inference-ampere80.tar
   image=ghcr.io/huggingface/text-embeddings-inference:latest
+elif [[ $gpu_type == "H100" ]]; then
+  image_path=$PWD/tei-images/text-embeddings-inference-hopper.tar
+  image=ghcr.io/huggingface/text-embeddings-inference:hopper-latest
 else
-  echo "Invalid GPU type. Please specify 'T4', 'L4', 'A100'."
+  echo "Invalid GPU type. Please specify 'T4', 'L4', 'A100', 'H100'."
   exit 1
 fi
 
