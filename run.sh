@@ -31,19 +31,18 @@ run_docker() {
 
   # 모델 컨테이너 실행
   for i in $(seq 0 1); do
-    docker run --runtime=nvidia -d --gpus '"device='$i'"' \
+    docker run -d --restart always --gpus '"device='$i'"' \
       --network tei-net --name ${service_name}-$i \
       -v $volume:$volume \
       --pull always $image --model-id $model --revision $revision --auto-truncate
   done
 
   # Nginx 컨테이너 실행 (서비스별로 다른 config 사용)
-  docker run -d --network tei-net --name nginx-${service_name}-lb \
+  docker run -d --restart always --network tei-net --name nginx-${service_name}-lb \
     -v $PWD/${config_file}:/etc/nginx/conf.d/default.conf:ro \
     -p $port:80 nginx:latest
 }
 
 # model run 
-run_docker "bespin-global/klue-sroberta-base-continue-learning-by-mnr" 8000 "nlu-embedder-tei" "nginx-nlu.conf"
 run_docker "BAAI/bge-m3" 8001 "bge-embedder-tei" "nginx-embedder.conf"
 run_docker "BAAI/bge-reranker-v2-m3" 8002 "bge-reranker-tei" "nginx-reranker.conf"
