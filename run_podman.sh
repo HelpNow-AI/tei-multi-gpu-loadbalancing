@@ -17,8 +17,11 @@ elif [[ $gpu_type == "L4" ]]; then
 elif [[ $gpu_type == "A100" ]]; then
   image_path=$PWD/tei-images/text-embeddings-inference-ampere80.tar
   image=ghcr.io/huggingface/text-embeddings-inference:latest
+elif [[ $gpu_type == "H100" ]]; then
+  image_path=$PWD/tei-images/text-embeddings-inference-hopper.tar
+  image=ghcr.io/huggingface/text-embeddings-inference:hopper-latest
 else
-  echo "Invalid GPU type. Please specify 'T4', 'L4', 'A100'."
+  echo "Invalid GPU type. Please specify 'T4', 'L4', 'A100', 'H100'"
   exit 1
 fi
 
@@ -61,6 +64,5 @@ run_podman() {
 }
 
 # 모델 실행
-# run_podman "bespin-global/klue-sroberta-base-continue-learning-by-mnr" 8000 "nlu-embedder-tei" "nginx-nlu.conf"
 run_podman "bge-m3" 8001 "bge-embedder-tei" "nginx-embedder.conf"
 run_podman "bge-reranker-v2-m3" 8002 "bge-reranker-tei" "nginx-reranker.conf"

@@ -16,24 +16,24 @@ docker pull nginx:latest
 docker save -o ./tei-images/nginx.tar nginx:latest
 ```
 
-3. Download TEI Image and Save to `.tar`
+3. Download TEI Image based on your GPU architecture and Save to `.tar`
 ```
-# Turing architecture (T4, RTX 2000 series, …)
+# Option 1: Turing architecture (T4, RTX 2000 series, …)
 docker pull ghcr.io/huggingface/text-embeddings-inference:turing-latest
 docker save -o ./tei-images/text-embeddings-inference-turing.tar ghcr.io/huggingface/text-embeddings-inference:turing-latest
 ```
 ```
-# Ampere 80 architecture (A100, A30)
+# Option 2: Ampere 80 architecture (A100, A30)
 docker pull ghcr.io/huggingface/text-embeddings-inference:89-latest
 docker save -o ./tei-images/text-embeddings-inference-ampere80.tar ghcr.io/huggingface/text-embeddings-inference:89-latest
 ```
 ```
-# Ada Lovelave architecture (RTX 4000 series, …)
+# Option 3: Ada Lovelave architecture (RTX 4000 series, …)
 docker pull ghcr.io/huggingface/text-embeddings-inference:latest 
 docker save -o ./tei-images/text-embeddings-inference-adalovelace.tar ghcr.io/huggingface/text-embeddings-inference:latest
 ```
 ```
-# Hopper architecture (H100)
+# Option 4: Hopper architecture (H100)
 docker pull ghcr.io/huggingface/text-embeddings-inference:hopper-latest
 docker save -o ./tei-images/text-embeddings-inference-hopper.tar ghcr.io/huggingface/text-embeddings-inference:hopper-latest
 ```

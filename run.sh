@@ -22,7 +22,7 @@ elif [[ $gpu_type == "H100" ]]; then
   image_path=$PWD/tei-images/text-embeddings-inference-hopper.tar
   image=ghcr.io/huggingface/text-embeddings-inference:hopper-latest
 else
-  echo "Invalid GPU type. Please specify 'T4', 'L4', 'A100', 'H100'."
+  echo "Invalid GPU type. Please specify 'T4', 'L4', 'A100', 'H100'"
   exit 1
 fi
 
@@ -65,6 +65,5 @@ run_docker() {
 }
 
 # model run 
-# run_docker "bespin-global/klue-sroberta-base-continue-learning-by-mnr" 8000 "nlu-embedder-tei" "nginx-nlu.conf"
 run_docker "bge-m3" 8001 "bge-embedder-tei" "nginx-embedder.conf"
 run_docker "bge-reranker-v2-m3" 8002 "bge-reranker-tei" "nginx-reranker.conf"
