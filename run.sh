@@ -33,6 +33,7 @@ run_docker() {
 
   # 모델 컨테이너 실행
   for i in $(seq 0 1); do
+    # docker run -d --restart always --runtime=nvidia --gpus '"device='$i'"' \
     docker run -d --restart always --gpus '"device='$i'"' \
       --network tei-net --name ${service_name}-$i \
       -v $volume:$volume \
