@@ -6,4 +6,4 @@
 
 ### run server
 `bash run.sh [GPU]`
-- Support GPUs: T4, L4, A100
+- Support GPUs: T4, L4, A100, H100

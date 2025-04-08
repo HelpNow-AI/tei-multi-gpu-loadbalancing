@@ -14,8 +14,10 @@ elif [[ $gpu_type == "L4" ]]; then
   image=ghcr.io/huggingface/text-embeddings-inference:89-1.5
 elif [[ $gpu_type == "A100" ]]; then
   image=ghcr.io/huggingface/text-embeddings-inference:1.5
+elif [[ $gpu_type == "H100" ]]; then
+  image=ghcr.io/huggingface/text-embeddings-inference:hopper-1.6
 else
-  echo "Invalid GPU type. Please specify 'T4', 'L4', 'A100'."
+  echo "Invalid GPU type. Please specify 'T4', 'L4', 'A100', 'H100'"
   exit 1
 fi
 
