@@ -1,22 +1,44 @@
-# Text Embeddings Inference 멀티 GPU 추론
-멀티 GPU 환경 내 TEI(Text Embeddings Inference) 컨테이너를 각 GPU별 배포 후, nginx 로드밸런싱을 통해 멀티 GPU 추론 진행
+# Text Embeddings Inference Multi-GPU Serving
 
-### Diagram
+## Overview
+This system provides load balancing for Text Embeddings Inference (TEI) containers using Nginx, enabling efficient inference across multiple GPUs. The architecture distributes incoming requests to multiple TEI containers to maximize GPU utilization and improve inference performance.
+
+## Architecture
 ![tei-lb](./tei-lb.png)
 
-### Setting TEI and HF models
-1. Clone Repo
+The system consists of:
+- Multiple TEI containers running on separate GPUs
+- Nginx as a load balancer to distribute requests
+- Configuration for both embedding and reranking services
+
+## Components
+
+### Nginx Load Balancer
+- Uses separate configuration files for each service type:
+  - `nginx-embedder.conf`: Defines the `bge-embedder-tei` upstream for embedding services
+  - `nginx-reranker.conf`: Defines the `bge-reranker-tei` upstream for reranking services
+- Routes requests to appropriate TEI container instances
+
+### TEI Containers
+- Each container runs on a dedicated GPU
+- Support for different GPU types (T4, L4, A100, H100)
+- Configured for specific models:
+  - Embedding model: `BAAI/bge-m3` (exposed on port 8001)
+  - Reranking model: `BAAI/bge-reranker-v2-m3` (exposed on port 8002)
+
+## Setup and Configuration
+**1. Clone Repo**
 ```
 git clone -b feature/closed-network https://github.com/HelpNow-AI/tei-multi-gpu-loadbalancing.git
 ```
 
-2. Downdload Nginx image and Save to. `.tar`
+**2. Downdload Nginx image and Save to. `.tar`**
 ```
 docker pull nginx:latest
 docker save -o ./tei-images/nginx.tar nginx:latest
 ```
 
-3. Download TEI Image based on your GPU architecture and Save to `.tar`
+**3. Download TEI Image based on your GPU architecture and Save to `.tar`**
 ```
 # Option 1: Turing architecture (T4, RTX 2000 series, …)
 docker pull ghcr.io/huggingface/text-embeddings-inference:turing-latest
@@ -38,7 +60,7 @@ docker pull ghcr.io/huggingface/text-embeddings-inference:hopper-latest
 docker save -o ./tei-images/text-embeddings-inference-hopper.tar ghcr.io/huggingface/text-embeddings-inference:hopper-latest
 ```
 
-4. Download HF Models (prerequisite: Git LFS install)
+**4. Download HF Models (prerequisite: Git LFS install)**
 ```
 mkdir models
 cd ./models
@@ -47,6 +69,39 @@ git clone https://huggingface.co/BAAI/bge-m3 # bge-m3
 git clone https://huggingface.co/BAAI/bge-reranker-v2-m3 # bge-reranker-v2-m3
 ```
 
-### run server
-`bash run.sh [GPU]`
-- Support GPUs: T4, L4, A100, H100
+## Deployment
+
+### Running the System
+1. To start the entire system with both embedder and reranker services:
+```bash
+./run.sh [GPU_TYPE]
+```
+Where `GPU_TYPE` is one of: T4 (default), L4, A100, or H100.
+
+2. The script will:
+   - Create a Docker network
+   - Start two TEI containers for each service (embedder and reranker)
+   - Configure and start Nginx load balancers for each service
+
+### Access Points
+- Embedding service: http://localhost:8001/embed
+```
+# 1. single request
+curl 127.0.0.1:8001/embed \
+    -X POST \
+    -d '{"inputs":"What is Deep Learning?"}' \
+    -H 'Content-Type: application/json'
+
+# 2. batch request
+curl 127.0.0.1:8001/embed \
+    -X POST \
+    -d '{"inputs":["Today is a nice day", "I like you"]}' \
+    -H 'Content-Type: application/json'
+```
+- Reranking service: http://localhost:8002/rerank
+```
+curl 127.0.0.1:8002/rerank \
+    -X POST \
+    -d '{"query":"What is Deep Learning?", "texts": ["Deep Learning is not...", "Deep learning is..."], "raw_scores": false}' \
+    -H 'Content-Type: application/json'
+```
