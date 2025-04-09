@@ -29,7 +29,7 @@ The system consists of:
 ## Setup and Configuration
 **1. Clone Repo**
 ```
-git clone -b feature/closed-network https://github.com/HelpNow-AI/tei-multi-gpu-loadbalancing.git
+git clone -b feature/closed-network https://github.com/HelpNow-AI/tei-multi-gpu-loadbalancing.git --depth 1
 ```
 
 **2. Downdload Nginx image and Save to. `.tar`**
